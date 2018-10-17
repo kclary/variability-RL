@@ -27,7 +27,7 @@ for steps in $timesteps; do
 				partition="titanx-long"
 			    fi
 			    uid=$env.$alg.$steps.$iter
-			    dest=run_cmd_$uid.sbatch
+			    dest=scripts/run_cmd_$uid.sbatch
 
 			    echo "Running on $partition. Command saved to $dest."
 
