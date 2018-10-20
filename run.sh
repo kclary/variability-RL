@@ -7,6 +7,8 @@ iters="0 1 2 3 4 5 6 7 8 9"
 # make sure we have all the pip dependencies we want installed
 pip3 install gym[atari] --user
 pip3 install 'tensorboard<1.8.0,>=1.7.0' --user
+pip3 uninstall atari-py --user
+pip3 install 'atari-py>=0.1.1,<0.1.2' --user
 
 # Run for 3e6 on titanx-short
 # Run for 1e7 on titanx-long
@@ -26,6 +28,7 @@ for steps in $timesteps; do
 			    else
 				partition="titanx-long"
 			    fi
+                         
 			    uid=$env.$alg.$steps.$iter
 			    dest=scripts/run_cmd_$uid.sbatch
 
@@ -39,7 +42,7 @@ for steps in $timesteps; do
 	#SBATCH --mem=16g
 
 
-	python3 $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model"
+	./start_python $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
 			    sbatch -p $partition --gres=gpu:1 $dest
