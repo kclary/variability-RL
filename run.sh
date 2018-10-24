@@ -11,6 +11,10 @@ pip3 install 'tensorboard<1.8.0,>=1.7.0' --user
 pip3 uninstall atari-py --user
 pip3 install 'atari-py>=0.1.1,<0.1.2' --user
 
+# set logging environment vars
+export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
+export OPENAI_LOGDIR=.log
+
 # Run for 3e6 on titanx-short
 # Run for 1e7 on titanx-long
 
