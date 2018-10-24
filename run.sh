@@ -1,4 +1,4 @@
-envs="BreakoutNoFrameskip-v4 PongNoFrameksip-v4 EnduroNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
+envs="BreakoutNoFrameskip-v4 PongNoFrameskip-v4 EnduroNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
 algs="acer a2c ppo2 deepq acktr"
 timesteps="1e7"
 work1=/mnt/nfs/work1/jensen/kclary
@@ -11,10 +11,6 @@ pip3 install 'tensorboard<1.8.0,>=1.7.0' --user
 pip3 uninstall atari-py --user
 pip3 install 'atari-py>=0.1.1,<0.1.2' --user
 
-# set logging environment vars
-export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
-export OPENAI_LOGDIR=.log
-
 # Run for 3e6 on titanx-short
 # Run for 1e7 on titanx-long
 
@@ -25,8 +21,8 @@ for steps in $timesteps; do
 		for env in $envs; do
 			for iter in $iters; do
 			    iftb=''
-
-			    model=$work1/$env.$alg.$steps.$iter.model
+                            mid = $env.$alg.$steps.$iter.model
+			    model=$work1/$mid
 
 			    if [[ "$steps" = "3e6" ]]; then
 				partition="titanx-short"
@@ -42,11 +38,14 @@ for steps in $timesteps; do
 			    cmd="#!/bin/bash
 	#
 	#SBATCH --job-name=$uid
-	#SBATCH --output=$alg.$uid.out
-	#SBATCH -e $alg.$uid.err
+	#SBATCH --output=$mid.$uid.out
+	#SBATCH -e $mid.$uid.err
 	#SBATCH --mem=16g
-
-
+        
+        # set logging environment vars
+        sleep 1
+	export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
+        export OPENAI_LOGDIR=$work1/test_logs/$mid 
 	./start_python $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
