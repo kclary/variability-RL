@@ -1,0 +1,5 @@
+models/*
+*.sbatch
+*.out
+scripts/*
+baselines/*
