@@ -1,3 +1,5 @@
+unset PYTHONPATH
+
 envs="BreakoutNoFrameskip-v4 PongNoFrameskip-v4 EnduroNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
 algs="acer a2c ppo2 deepq acktr"
 timesteps="1e7"
@@ -21,7 +23,7 @@ for steps in $timesteps; do
 		for env in $envs; do
 			for iter in $iters; do
 			    iftb=''
-                            uid = $env.$alg.$steps.$iter
+                            uid=$env.$alg.$steps.$iter
 			    model=$work1/$uid.model
 
 			    if [[ "$steps" = "3e6" ]]; then
@@ -32,23 +34,24 @@ for steps in $timesteps; do
          
 			    dest=scripts/run_cmd_$uid.sbatch
 
-			    echo "Running on $partition. Command saved to $dest."
+                            export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
+                            export OPENAI_LOGDIR=$work1/test_logs/$uid
+
+			    echo "Running on $partition. Command saved to $dest. Export to $OPENAI_LOGDIR"
 
 			    cmd="#!/bin/bash
 	#
-	#SBATCH --job-name=$$uid
+	#SBATCH --job-name=$uid
 	#SBATCH --output=$uid.out
 	#SBATCH -e $uid.err
 	#SBATCH --mem=16g
         
         # set logging environment vars
         sleep 1
-	export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
-        export OPENAI_LOGDIR=$work1/test_logs/$uid 
 	./start_python $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
-			    sbatch -p $partition --gres=gpu:1 $dest
+			    #sbatch -p $partition --gres=gpu:1 $dest
 		    done;
 	    #exit
 		done;
