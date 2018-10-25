@@ -21,8 +21,8 @@ for steps in $timesteps; do
 		for env in $envs; do
 			for iter in $iters; do
 			    iftb=''
-                            mid = $env.$alg.$steps.$iter.model
-			    model=$work1/$mid
+                            uid = $env.$alg.$steps.$iter
+			    model=$work1/$uid.model
 
 			    if [[ "$steps" = "3e6" ]]; then
 				partition="titanx-short"
@@ -30,22 +30,21 @@ for steps in $timesteps; do
 				partition="titanx-long"
 			    fi
          
-			    uid=$env.$alg.$steps.$iter
 			    dest=scripts/run_cmd_$uid.sbatch
 
 			    echo "Running on $partition. Command saved to $dest."
 
 			    cmd="#!/bin/bash
 	#
-	#SBATCH --job-name=$uid
-	#SBATCH --output=$mid.$uid.out
-	#SBATCH -e $mid.$uid.err
+	#SBATCH --job-name=$$uid
+	#SBATCH --output=$uid.out
+	#SBATCH -e $uid.err
 	#SBATCH --mem=16g
         
         # set logging environment vars
         sleep 1
 	export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
-        export OPENAI_LOGDIR=$work1/test_logs/$mid 
+        export OPENAI_LOGDIR=$work1/test_logs/$uid 
 	./start_python $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
