@@ -51,7 +51,7 @@ for steps in $timesteps; do
 	./start_python $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
-			    #sbatch -p $partition --gres=gpu:1 $dest
+			    sbatch -p $partition --gres=gpu:1 $dest
 		    done;
 	    #exit
 		done;
