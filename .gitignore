@@ -1,2 +1,6 @@
 data/*
+models/*
+*.sbatch
+*.out
+scripts/*
 baselines/*
