@@ -2,7 +2,7 @@ unset PYTHONPATH
 
 envs="BreakoutNoFrameskip-v4 PongNoFrameskip-v4 EnduroNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
 #algs="acer a2c ppo2 deepq acktr"
-algs="a2c ppo2"
+algs="acktr"
 timesteps="1e7"
 work1=/mnt/nfs/work1/jensen/kclary
 seeds="2364 196 2307 9228 6811 3355 3410 1966 1228 1939"
@@ -25,8 +25,6 @@ for steps in $timesteps; do
 				partition="titanx-short"
 			    dest=scripts/run_cmd_$uid.sbatch
 
-                mkdir -p $OPENAI_LOGDIR
-
 			    echo "Running on $partition. Command saved to $dest."
 
 			    cmd="#!/bin/bash
@@ -34,10 +32,9 @@ for steps in $timesteps; do
 	#SBATCH --job-name=$uid
 	#SBATCH --output=$uid.out
 	#SBATCH -e $uid.err
-	#SBATCH --mem=16g
         
         sleep 1
-        PYTHONPATH=$PYTHONPATH:variability_RL:baselines python -m baselines.run_exp --alg=$alg --env=$env --num_timesteps=0 --load_path=$model --play --num_env=1
+        PYTHONPATH=$PYTHONPATH:variability_RL:baselines python -m baselines.run_exp --alg=$alg --env=$env --num_timesteps=0 --load_path=$model --play --num_env=1"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
 			    sbatch -p $partition --gres=gpu:1 $dest
