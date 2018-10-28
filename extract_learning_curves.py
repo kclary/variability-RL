@@ -15,6 +15,7 @@ iters = range(0,10)
 
 
 # load training curves for all 
+results = {}
 for env in envs:
     for alg in algs: 
         for steps in n_steps: 
@@ -28,14 +29,15 @@ for env in envs:
                     except: 
                         pass
 
+
 all_curves = pd.DataFrame()
 for k in results.keys(): 
     env, alg, steps, i = k.split('.')
-    curve = {'alg':alg, 'env':env, 'random_seed_id':i, 'x': results[k][0][0], 'y':results[k][0][1]}
+    curve = pd.DataFrame({'alg':alg, 'env':env, 'random_seed_id':i, 'x': results[k][0][0].tolist(), 'y':results[k][0][1].tolist()})
 
     #append to all_curves
     all_curves = all_curves.append(curve, ignore_index = True)
-    
+
 # save to tsv
 all_curves.to_csv(os.path.join(".", "data", "all_learning_curves.tsv"), sep="\t")
 
