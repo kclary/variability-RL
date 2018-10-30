@@ -39,11 +39,12 @@ all_scores <- lapply(1:length(models), function(mod) {
       
       # plotting
       model_id <- paste0(envs[env], "--", models[mod])
-      g1 <- ggplot(scores, aes(final_score, fill=random_seed_id)) + geom_histogram() +
-        facet_wrap(~random_seed_id) + ggtitle(model_id) + theme_bw()
+      g1 <- ggplot(scores, aes(final_score, fill=random_seed_id)) + geom_histogram() + xlab("Score") +
+        facet_wrap(~random_seed_id, nrow=2) + ggtitle(model_id) + theme_bw() + theme(legend.position="none") + 
+        theme(axis.text=element_text(size=28))
       
       g2 <- ggplot(scores, aes(final_score, color=random_seed_id)) + geom_density() + 
-        ggtitle(model_id) + theme_bw()
+        ggtitle(model_id) + theme_bw() + theme(legend.position="none") +theme(axis.text=element_text(size=28)) + xlab("Score")
       ggsave(paste0("plots/", model_id, "_", "comb.png"), arrangeGrob(g1,g2), "png")
       
       scores
