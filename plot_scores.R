@@ -39,12 +39,14 @@ all_scores <- lapply(1:length(models), function(mod) {
       
       # plotting
       model_id <- paste0(envs[env], "--", models[mod])
-      g1 <- ggplot(scores, aes(final_score, fill=random_seed_id)) + geom_histogram() + xlab("Score") +
-        facet_wrap(~random_seed_id, nrow=2) + ggtitle(model_id) + theme_bw() + theme(legend.position="none") + 
-        theme(axis.text=element_text(size=28))
+      g1 <- ggplot(scores, aes(final_score, fill=random_seed_id)) + geom_histogram() + xlab("") + ylab("") +
+        facet_wrap(~random_seed_id, nrow=2) + theme_bw() + theme(legend.position="none") + 
+        theme(axis.text=element_text(size=20), axis.title=element_text(size=30)) + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
       
-      g2 <- ggplot(scores, aes(final_score, color=random_seed_id)) + geom_density() + 
-        ggtitle(model_id) + theme_bw() + theme(legend.position="none") +theme(axis.text=element_text(size=28)) + xlab("Score")
+      g2 <- ggplot(scores, aes(final_score, color=random_seed_id)) + geom_density(bins=40) + ylab("") +
+        theme_bw() + theme(legend.position="none") +theme(axis.text=element_text(size=20), axis.title=element_text(size=28)) + xlab("Score") + 
+        theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+      plot(arrangeGrob(g1,g2))
       ggsave(paste0("plots/", model_id, "_", "comb.png"), arrangeGrob(g1,g2), "png")
       
       scores
@@ -57,6 +59,8 @@ all_scores <- lapply(1:length(models), function(mod) {
 names(all_scores) <- seq_along(all_scores)
 all_scores[sapply(all_scores, is.null)] <- NULL
 all_scores <- do.call(rbind, all_scores)
+
+
 
 # save all scores to file
 write.csv(all_scores, "data/all_scores.tsv")
