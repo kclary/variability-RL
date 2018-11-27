@@ -1,4 +1,5 @@
-library(ggplot2)
+require(ggplot2)
+
 algs <- c("ppo2", "a2c", "acktr")
 envs <- c("BreakoutNoFrameskip-v4", "QbertNoFrameskip-v4", "BeamRiderNoFrameskip-v4", "SeaquestNoFrameskip-v4", "SpaceInvadersNoFrameskip-v4")
 timesteps <- "1e7"

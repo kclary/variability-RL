@@ -1,8 +1,8 @@
-library(reshape2)
-library(ggplot2)
-library(stringr)
-library(plyr)
-library(gridExtra)
+require(reshape2)
+require(ggplot2)
+require(stringr)
+require(plyr)
+require(gridExtra)
 
 # array of models, environments
 models <- c("ppo2", "a2c", "acer", "acktr", "deepq")
