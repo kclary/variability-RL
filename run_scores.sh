@@ -1,7 +1,7 @@
 unset PYTHONPATH
 
 envs="BreakoutNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
-algs="acer a2c ppo2 acktr"
+algs="a2c ppo2 acktr"
 timesteps="1e7"
 
 # point work1 to your model directory
