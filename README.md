@@ -3,7 +3,7 @@
 Accompanying code for "Let’s Play Again: Variability of Deep Reinforcement Learning Agents in Atari Environments"
 
 ## Installation and Dependencies
-1. Clone this repo, and install the Python dependencies listed in requirements.txt. We used Python 3.6. 
+1. Clone this repo, and install the Python dependencies listed in `requirements.txt`. We used Python 3.6. 
 2. Clone the OpenAI Baselines fork listed as a submodule and follow the installation instructions.
 
 ## Experiment Replication
