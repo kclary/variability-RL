@@ -1,0 +1,3 @@
+[submodule "baselines"]
+	path = baselines
+	url = git@github.com:kclary/baselines.git
