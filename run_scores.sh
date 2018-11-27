@@ -1,8 +1,7 @@
 unset PYTHONPATH
 
-envs="BreakoutNoFrameskip-v4 PongNoFrameskip-v4 EnduroNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
-#algs="acer a2c ppo2 deepq acktr"
-algs="acktr"
+envs="BreakoutNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
+algs="acer a2c ppo2 acktr"
 timesteps="1e7"
 work1=/mnt/nfs/work1/jensen/kclary
 seeds="2364 196 2307 9228 6811 3355 3410 1966 1228 1939"

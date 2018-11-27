@@ -1,3 +1,4 @@
 #!/bin/bash
 
+PYTHONPATH=$PYTHONPATH:variability_RL:baselines
 python3 "$@"

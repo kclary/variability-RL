@@ -1,7 +1,8 @@
 unset PYTHONPATH
+module load cudnn/7.3-cuda_9.0
 
-envs="BreakoutNoFrameskip-v4 PongNoFrameskip-v4 EnduroNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
-algs="acer a2c ppo2 deepq acktr"
+envs="BreakoutNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
+algs="acer a2c ppo2 acktr"
 timesteps="1e7"
 work1=/mnt/nfs/work1/jensen/kclary
 seeds="2364 196 2307 9228 6811 3355 3410 1966 1228 1939"
@@ -22,7 +23,6 @@ for steps in $timesteps; do
 		for env in $envs; do
                         iter=-1
 			for seed in $seeds; do
-			    iftb=''
                             (( iter++ ))
                             uid=$env.$alg.$steps.$iter
 			    model=$work1/$uid.model
@@ -32,7 +32,8 @@ for steps in $timesteps; do
 			    else
 				partition="titanx-long"
 			    fi
-         
+                           
+                            mem="16g"
 			    dest=scripts/run_cmd_$uid.sbatch
 
                             export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
@@ -46,14 +47,15 @@ for steps in $timesteps; do
 	#SBATCH --job-name=$uid
 	#SBATCH --output=$uid.out
 	#SBATCH -e $uid.err
-	#SBATCH --mem=16g
+	#SBATCH --mem=$mem
         
         # set logging environment vars
         sleep 1
-	./start_python $runner $iftb --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model --seed=$seed"
+	./start_python $runner --alg=$alg --env=$env --num_timesteps=$steps --save_path=$model --seed=$seed"
 			    echo "$cmd"
 			    echo "$cmd" > $dest
-			    sbatch -p $partition --gres=gpu:1 $dest
+                            #if [ -f $model ] ; then echo "$model completed"; else echo "todo" ; fi			    
+                            if [ -f $model ] ; then echo "$model completed"; else sbatch -p $partition --gres=gpu:1 $dest ; fi
 		    done;
 	    #exit
 		done;
