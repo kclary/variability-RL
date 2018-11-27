@@ -2,9 +2,11 @@ unset PYTHONPATH
 module load cudnn/7.3-cuda_9.0
 
 envs="BreakoutNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
-algs="acer a2c ppo2 acktr"
+algs="a2c ppo2 acktr"
 timesteps="1e7"
-work1=/mnt/nfs/work1/jensen/kclary
+
+# point work1 to your model directory
+work1=$PWD/models/
 seeds="2364 196 2307 9228 6811 3355 3410 1966 1228 1939"
 
 # make sure we have all the pip dependencies we want installed
@@ -37,7 +39,9 @@ for steps in $timesteps; do
 			    dest=scripts/run_cmd_$uid.sbatch
 
                             export OPENAI_LOG_FORMAT=stdout,csv,tensorboard
-                            export OPENAI_LOGDIR=$work1/test_logs/$uid
+
+                            # point OPENAI_LOGDIR to your logging directory
+                            export OPENAI_LOGDIR=$PWD/logs
                             mkdir -p $OPENAI_LOGDIR
 
 			    echo "Running on $partition. Command saved to $dest. Export to $OPENAI_LOGDIR"

@@ -3,7 +3,10 @@ unset PYTHONPATH
 envs="BreakoutNoFrameskip-v4 QbertNoFrameskip-v4 BeamRiderNoFrameskip-v4 SeaquestNoFrameskip-v4 SpaceInvadersNoFrameskip-v4"
 algs="acer a2c ppo2 acktr"
 timesteps="1e7"
-work1=/mnt/nfs/work1/jensen/kclary
+
+# point work1 to your model directory
+work1=$PWD/models/
+
 seeds="2364 196 2307 9228 6811 3355 3410 1966 1228 1939"
 
 # make sure we have all the pip dependencies we want installed

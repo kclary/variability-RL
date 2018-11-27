@@ -4,7 +4,7 @@ from baselines import results_plotter
 
 
 algs = ["a2c", "ppo2", "acktr"]
-envs = ["BeamRider", "Breakout", "Seaquest", "Qbert", "Pong", "Enduro", "SpaceInvaders"]
+envs = ["BeamRider", "Breakout", "Seaquest", "Qbert", "SpaceInvaders"]
 env_extension = "NoFrameskip-v4"
 envs = [env+env_extension for env in envs]
 
